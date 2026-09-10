@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dark Star Dispatch — US Freight Dispatching for Owner-Operators</title>
+<meta name="description" content="Dark Star Dispatch finds loads, negotiates rates, and handles the paperwork so US owner-operators and small fleets stay loaded and paid.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#10151c;
+    --bg-alt:#161d26;
+    --bg-raised:#1b232e;
+    --line:#2a323d;
+    --line-soft:#1e2630;
+    --text:#e8ecf1;
+    --text-muted:#8d97a3;
+    --accent:#f2a93b;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:'Inter',system-ui,sans-serif; font-size:16px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{ font-family:'Oswald',sans-serif; font-weight:600; margin:0; letter-spacing:0.2px;}
+  a{color:inherit;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+  ::selection{background:var(--accent);color:#10151c;}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(16,21,28,0.92); backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav{display:flex; align-items:center; justify-content:space-between; height:72px;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Oswald',sans-serif; font-size:19px; font-weight:600; text-decoration:none; color:var(--text);}
+  .brand .dot{width:9px;height:9px;background:var(--accent);border-radius:50%;}
+  .brand small{color:var(--text-muted); font-family:'Inter',sans-serif; font-weight:400; font-size:12px; margin-left:2px;}
+  nav.links{display:flex; gap:32px;}
+  nav.links a{font-size:14px; text-decoration:none; color:var(--text-muted); transition:color .15s ease;}
+  nav.links a:hover{color:var(--text);}
+  .nav-cta{
+    font-size:14px; font-weight:500; padding:10px 18px;
+    border:1px solid var(--accent); color:var(--accent); text-decoration:none;
+    border-radius:var(--radius); transition:background .15s ease, color .15s ease; white-space:nowrap;
+  }
+  .nav-cta:hover{background:var(--accent); color:#10151c;}
+
+  .hero{position:relative; overflow:hidden; border-bottom:1px solid var(--line-soft);}
+  .hero-road{position:absolute; inset:0; pointer-events:none; opacity:0.5;}
+  .hero-road svg{width:100%; height:100%;}
+  .dash{stroke:var(--line); stroke-width:2; stroke-dasharray:18 22; animation:dashmove 6s linear infinite;}
+  @keyframes dashmove{ to{stroke-dashoffset:-160;} }
+  .hero-inner{position:relative; padding:96px 0 72px;}
+  .eyebrow{display:inline-block; font-size:13px; color:var(--accent); font-weight:500; margin-bottom:18px; opacity:0; animation:rise .6s ease forwards;}
+  h1.headline{font-size:clamp(34px, 5vw, 58px); line-height:1.08; max-width:16ch; opacity:0; animation:rise .6s ease .08s forwards;}
+  .sub{margin-top:22px; max-width:56ch; font-size:17px; color:var(--text-muted); opacity:0; animation:rise .6s ease .16s forwards;}
+  @keyframes rise{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+  .hero-ctas{margin-top:34px; display:flex; gap:16px; flex-wrap:wrap; opacity:0; animation:rise .6s ease .24s forwards;}
+  .btn-primary{
+    background:var(--accent); color:#10151c; padding:14px 26px; text-decoration:none;
+    font-weight:600; font-size:15px; border-radius:var(--radius);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .btn-primary:hover{transform:translateY(-1px); box-shadow:0 6px 20px rgba(242,169,59,0.22);}
+  .btn-ghost{
+    padding:14px 22px; text-decoration:none; font-weight:500; font-size:15px; color:var(--text);
+    border:1px solid var(--line); border-radius:var(--radius); transition:border-color .15s ease;
+  }
+  .btn-ghost:hover{border-color:var(--text-muted);}
+
+  .stats{border-top:1px solid var(--line-soft); background:var(--bg-alt);}
+  .stats-grid{display:grid; grid-template-columns:repeat(4,1fr);}
+  .stat{padding:28px 24px; border-left:1px solid var(--line-soft);}
+  .stat:first-child{border-left:none;}
+  .stat .num{font-family:'Oswald',sans-serif; font-size:26px; color:var(--accent); font-weight:600;}
+  .stat .label{margin-top:4px; font-size:13px; color:var(--text-muted);}
+
+  section{padding:88px 0;}
+  .section-head{max-width:48ch; margin-bottom:52px;}
+  .section-head h2{font-size:clamp(26px,3vw,34px);}
+  .section-head p{margin-top:14px; color:var(--text-muted); font-size:15.5px;}
+
+  #services{border-top:1px solid var(--line-soft);}
+  .service-row{display:grid; grid-template-columns:56px 1fr; gap:22px; padding:26px 0; border-top:1px solid var(--line-soft);}
+  .service-row:last-child{border-bottom:1px solid var(--line-soft);}
+  .service-icon{width:40px; height:40px; border:1px solid var(--line); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--accent);}
+  .service-row h3{font-size:19px; font-weight:500;}
+  .service-row p{margin-top:8px; color:var(--text-muted); font-size:15px; max-width:64ch;}
+
+  #coverage{background:var(--bg-alt); border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft);}
+  .coverage-grid{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+  .coverage-col h3{font-size:15px; color:var(--accent); font-weight:500; margin-bottom:18px;}
+  .coverage-col ul{list-style:none; margin:0; padding:0;}
+  .coverage-col li{padding:13px 0; border-top:1px solid var(--line-soft); font-size:15.5px; display:flex; align-items:center; gap:12px;}
+  .coverage-col li:last-child{border-bottom:1px solid var(--line-soft);}
+  .coverage-col li::before{content:""; width:6px; height:6px; background:var(--accent); border-radius:50%; flex-shrink:0;}
+
+  #about .lede{font-family:'Oswald',sans-serif; font-size:clamp(22px,2.6vw,30px); font-weight:500; line-height:1.35; max-width:28ch; margin-bottom:52px;}
+  .facts{border-top:1px solid var(--line-soft);}
+  .fact-row{display:grid; grid-template-columns:1fr 1.4fr; padding:18px 0; border-bottom:1px solid var(--line-soft); gap:20px;}
+  .fact-row dt{color:var(--text-muted); font-size:14px;}
+  .fact-row dd{margin:0; font-size:15.5px;}
+
+  #contact{border-top:1px solid var(--line-soft);}
+  .contact-grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:64px;}
+  .contact-info h2{font-size:clamp(26px,3vw,34px); max-width:14ch;}
+  .contact-info p.lead{color:var(--text-muted); margin-top:16px; font-size:15.5px; max-width:40ch;}
+  .contact-list{margin-top:36px;}
+  .contact-list .row{padding:16px 0; border-top:1px solid var(--line-soft);}
+  .contact-list .row:last-child{border-bottom:1px solid var(--line-soft);}
+  .contact-list .k{font-size:13px; color:var(--text-muted);}
+  .contact-list .v{font-size:16px; margin-top:4px;}
+  .contact-list a{text-decoration:none;}
+  .contact-list a:hover{color:var(--accent);}
+
+  form{background:var(--bg-raised); border:1px solid var(--line); border-radius:4px; padding:32px;}
+  .field{margin-bottom:18px;}
+  .field label{display:block; font-size:13px; color:var(--text-muted); margin-bottom:7px;}
+  .field input, .field select, .field textarea{
+    width:100%; background:var(--bg-alt); border:1px solid var(--line); color:var(--text);
+    padding:12px 14px; font-size:15px; font-family:inherit; border-radius:2px;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--accent); outline:none;}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  textarea{resize:vertical; min-height:90px;}
+  .submit-btn{
+    width:100%; background:var(--accent); color:#10151c; border:none; padding:15px;
+    font-size:15px; font-weight:600; border-radius:2px; cursor:pointer; font-family:inherit;
+    transition:opacity .15s ease;
+  }
+  .submit-btn:hover{opacity:0.9;}
+  .form-note{font-size:12.5px; color:var(--text-muted); margin-top:12px; text-align:center;}
+
+  footer{border-top:1px solid var(--line-soft); padding:32px 0;}
+  .footer-row{display:flex; justify-content:space-between; align-items:center; font-size:13px; color:var(--text-muted); flex-wrap:wrap; gap:12px;}
+
+  @media (max-width: 860px){
+    nav.links{display:none;}
+    .stats-grid{grid-template-columns:1fr 1fr;}
+    .stat:nth-child(3){border-left:none;}
+    .stat{border-bottom:1px solid var(--line-soft);}
+    .coverage-grid{grid-template-columns:1fr;}
+    .contact-grid{grid-template-columns:1fr; gap:40px;}
+    .field-row{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#">
+      <span class="dot"></span>Dark Star Dispatch<small>US</small>
+    </a>
+    <nav class="links">
+      <a href="#services">Services</a>
+      <a href="#coverage">Coverage</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="nav-cta" href="#contact">Get a quote</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-road" aria-hidden="true">
+    <svg viewBox="0 0 1200 500" preserveAspectRatio="none">
+      <line class="dash" x1="0" y1="120" x2="1200" y2="60"></line>
+      <line class="dash" x1="0" y1="260" x2="1200" y2="330"></line>
+      <line class="dash" x1="0" y1="420" x2="1200" y2="470"></line>
+    </svg>
+  </div>
+  <div class="wrap hero-inner">
+    <span class="eyebrow">Freight dispatch service — United States</span>
+    <h1 class="headline">Loads booked. Rates negotiated. Your truck stays rolling.</h1>
+    <p class="sub">Dark Star Dispatch works with US owner-operators and small carriers, sourcing freight through DAT, Truckstop, and direct broker relationships across all 48 states.</p>
+    <div class="hero-ctas">
+      <a class="btn-primary" href="#contact">Talk to a dispatcher</a>
+      <a class="btn-ghost" href="#services">What's included</a>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="wrap stats-grid">
+    <div class="stat"><div class="num">6–10%</div><div class="label">Dispatch fee per load, no retainer</div></div>
+    <div class="stat"><div class="num">24/7</div><div class="label">Load board &amp; broker coverage</div></div>
+    <div class="stat"><div class="num">Lower 48</div><div class="label">Nationwide lane coverage</div></div>
+    <div class="stat"><div class="num">24hr</div><div class="label">Onboarding turnaround</div></div>
+  </div>
+</div>
+
+<section id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>What's included</h2>
+      <p>A real dispatch service built around owner-operators, not a call center reading a script.</p>
+    </div>
+
+    <div class="service-row">
+      <div class="service-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 13h11l3 4h4v-6l-3-5H3z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>
+      </div>
+      <div>
+        <h3>Load sourcing</h3>
+        <p>Daily searching across DAT, Truckstop, and direct broker contacts for freight matching your equipment, lanes, and hours of service.</p>
+      </div>
+    </div>
+
+    <div class="service-row">
+      <div class="service-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16M15 6l6 6-6 6"/></svg>
+      </div>
+      <div>
+        <h3>Rate negotiation</h3>
+        <p>Rates checked against current lane data before you accept, with detention and layover terms confirmed upfront.</p>
+      </div>
+    </div>
+
+    <div class="service-row">
+      <div class="service-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h9l5 5v13H6z"/><path d="M9 12h6M9 16h6"/></svg>
+      </div>
+      <div>
+        <h3>Paperwork &amp; invoicing</h3>
+        <p>Rate confirmations, BOLs, and invoices handled and sent to your factoring company or broker so you're not chasing paper.</p>
+      </div>
+    </div>
+
+    <div class="service-row">
+      <div class="service-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v6H4zM4 14h10v6H4z"/></svg>
+      </div>
+      <div>
+        <h3>Broker vetting</h3>
+        <p>Credit checks and broker authority verified before booking, so you're not left waiting on a payment that never comes.</p>
+      </div>
+    </div>
+
+    <div class="service-row">
+      <div class="service-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      </div>
+      <div>
+        <h3>Hours-of-service planning</h3>
+        <p>Loads planned around your ELD hours and realistic delivery windows — not booked blind against the clock.</p>
+      </div>
+    </div>
+
+    <div class="service-row">
+      <div class="service-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h6l3-8 3 16 3-8h3"/></svg>
+      </div>
+      <div>
+        <h3>Backhaul planning</h3>
+        <p>Return-leg freight lined up in advance where possible, cutting deadhead miles and improving revenue per week.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="coverage">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Coverage &amp; equipment types</h2>
+      <p>Details carriers ask before signing up.</p>
+    </div>
+    <div class="coverage-grid">
+      <div class="coverage-col">
+        <h3>Equipment types covered</h3>
+        <ul>
+          <li>Dry Van</li>
+          <li>Reefer (temperature-controlled)</li>
+          <li>Flatbed &amp; step deck</li>
+          <li>Power Only</li>
+          <li>Box Truck / Hotshot</li>
+        </ul>
+      </div>
+      <div class="coverage-col">
+        <h3>Regions served</h3>
+        <ul>
+          <li>Midwest &amp; Great Lakes</li>
+          <li>Southeast &amp; Gulf Coast</li>
+          <li>Texas &amp; South Central</li>
+          <li>West Coast &amp; Mountain states</li>
+          <li>Northeast corridor</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <p class="lede">We work as an extension of your operation — tracking your preferred lanes, regular brokers, and truck availability so every week is planned, not scrambled.</p>
+    <dl class="facts">
+      <div class="fact-row"><dt>Who we work with</dt><dd>Owner-operators &amp; small fleets (1–10 trucks)</dd></div>
+      <div class="fact-row"><dt>Dispatch fee</dt><dd>6–10% per completed load</dd></div>
+      <div class="fact-row"><dt>Contract</dt><dd>No long-term lock-in, cancel anytime</dd></div>
+      <div class="fact-row"><dt>Requirements</dt><dd>Active MC &amp; DOT authority, current insurance</dd></div>
+      <div class="fact-row"><dt>Onboarding</dt><dd>Same-week start after carrier packet received</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap contact-grid">
+    <div class="contact-info">
+      <h2>Get your truck loaded</h2>
+      <p class="lead">Send your equipment details, MC number, and home base — a dispatcher will follow up same day.</p>
+      <div class="contact-list">
+        <div class="row"><div class="k">Email</div><div class="v"><a href="mailto:shakikhan22050@gmail.com">shakikhan22050@gmail.com</a></div></div>
+        <div class="row"><div class="k">Phone</div><div class="v"><a href="tel:+923374232816">+92 337 4232816</a></div></div>
+        <div class="row"><div class="k">Hours</div><div class="v">Mon–Sat, 7am–10pm (CST)</div></div>
+        <div class="row"><div class="k">Response time</div><div class="v">Within 2 hours during working hours</div></div>
+      </div>
+    </div>
+
+    <form id="quoteForm" action="#" method="POST">
+      <div class="field-row">
+        <div class="field">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="field">
+          <label for="mc">MC number</label>
+          <input type="text" id="mc" name="mc">
+        </div>
+      </div>
+      <div class="field">
+        <label for="vehicle">Equipment type</label>
+        <select id="vehicle" name="vehicle">
+          <option>Dry Van</option>
+          <option>Reefer</option>
+          <option>Flatbed</option>
+          <option>Power Only</option>
+          <option>Box Truck</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="base">Home base (city/state)</label>
+        <input type="text" id="base" name="base">
+      </div>
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message"></textarea>
+      </div>
+      <button class="submit-btn" type="submit">Send message</button>
+      <p class="form-note">We reply within 2 hours during working hours.</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-row">
+    <span>© 2026 Dark Star Dispatch. All rights reserved.</span>
+    <span>US freight dispatching services.</span>
+  </div>
+</footer>
+
+<script>
+  // Placeholder submit handler — replace the endpoint below with your n8n
+  // webhook (or another form backend) so submissions actually get delivered.
+  document.getElementById('quoteForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const btn = this.querySelector('.submit-btn');
+    const original = btn.textContent;
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+
+    // TODO: point this at your n8n Webhook node URL
+    const endpoint = null;
+
+    if(!endpoint){
+      btn.textContent = 'Set up form endpoint (see console)';
+      console.warn('Quote form: no endpoint configured. Point "endpoint" in the script to your n8n webhook URL to receive submissions.');
+      setTimeout(()=>{ btn.textContent = original; btn.disabled = false; }, 2500);
+      return;
+    }
+
+    const data = Object.fromEntries(new FormData(this));
+    fetch(endpoint, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(data)
+    }).then(()=>{
+      btn.textContent = 'Sent — we\'ll be in touch';
+      this.reset();
+    }).catch(()=>{
+      btn.textContent = 'Something went wrong — try email instead';
+    }).finally(()=>{
+      setTimeout(()=>{ btn.textContent = original; btn.disabled = false; }, 3000);
+    });
+  });
+</script>
+
+</body>
+</html>
